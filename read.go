@@ -1,3 +1,4 @@
+// Package logplex implements streaming of syslog messages
 package logplex
 
 import (
@@ -23,15 +24,17 @@ type Msg struct {
 	Msg      []byte
 }
 
+// Reader reads syslog streams
 type Reader struct {
 	buf *bufio.Reader
-	err error
 }
 
+// NewReader returns a new Reader that reads from buf.
 func NewReader(buf *bufio.Reader) *Reader {
 	return &Reader{buf: buf}
 }
 
+// ReadMsg returns a single Msg. If no data is available, returns an error.
 func (r *Reader) ReadMsg() (m *Msg, err error) {
 	defer errRecover(&err)
 
