@@ -5,7 +5,6 @@ import (
 	"errors"
 	"io"
 	"strconv"
-	"time"
 )
 
 var ErrInvalidPriority = errors.New("Invalid Priority")
@@ -42,16 +41,4 @@ func (b *readBuf) priority() int {
 		panic(ErrInvalidPriority)
 	}
 	return n
-}
-
-func (b *readBuf) time() time.Time {
-	return mustParseTime(time.RFC3339, string(b.bytes()))
-}
-
-func mustParseTime(format string, s string) time.Time {
-	t, err := time.Parse(format, s)
-	if err != nil {
-		panic(err)
-	}
-	return t
 }

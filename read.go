@@ -10,13 +10,17 @@ import (
 )
 
 type Msg struct {
-	Priority int
-	Time     time.Time
-	Host     []byte
-	User     []byte
-	Pid      []byte
-	Id       []byte
-	Msg      []byte
+	Priority  int
+	Timestamp []byte
+	Host      []byte
+	User      []byte
+	Pid       []byte
+	Id        []byte
+	Msg       []byte
+}
+
+func (m *Msg) Time() (time.Time, error) {
+	return time.Parse(time.RFC3339, string(m.Timestamp))
 }
 
 // Reader reads syslog streams
@@ -37,7 +41,7 @@ func (r *Reader) ReadMsg() (m *Msg, err error) {
 
 	m = new(Msg)
 	m.Priority = b.priority()
-	m.Time = b.time()
+	m.Timestamp = b.bytes()
 	m.Host = b.bytes()
 	m.User = b.bytes()
 	m.Pid = b.bytes()

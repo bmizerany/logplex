@@ -6,7 +6,6 @@ import (
 	"reflect"
 	"strings"
 	"testing"
-	"time"
 )
 
 func TestParse(t *testing.T) {
@@ -18,7 +17,7 @@ func TestParse(t *testing.T) {
 	exp := []*Msg{
 		{
 			174,
-			mustParseTime(time.RFC3339, "2012-07-22T00:06:26-00:00"),
+			[]byte("2012-07-22T00:06:26-00:00"),
 			[]byte("somehost"),
 			[]byte("Go"),
 			[]byte("console"),
@@ -27,7 +26,7 @@ func TestParse(t *testing.T) {
 		},
 		{
 			174,
-			mustParseTime(time.RFC3339, "2012-07-22T00:06:26-00:00"),
+			[]byte("2012-07-22T00:06:26-00:00"),
 			[]byte("somehost"),
 			[]byte("Go"),
 			[]byte("console"),
@@ -47,8 +46,8 @@ func TestParse(t *testing.T) {
 		if m.Priority != e.Priority {
 			t.Errorf("expected %d, got %d", m.Priority, e.Priority)
 		}
-		if !reflect.DeepEqual(m.Time, e.Time) {
-			t.Errorf("expected %d, got %d", m.Time, e.Time)
+		if !reflect.DeepEqual(m.Timestamp, e.Timestamp) {
+			t.Errorf("expected %d, got %d", m.Timestamp, e.Timestamp)
 		}
 		if !reflect.DeepEqual(m.Host, e.Host) {
 			t.Errorf("expected %s, got %s", m.Host, e.Host)
