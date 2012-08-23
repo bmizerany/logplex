@@ -11,7 +11,7 @@ import (
 func TestParse(t *testing.T) {
 	data := strings.NewReader(
 		"67 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 2 Hi from Go\n" +
-		"67 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 10 Hi from Go",
+			"67 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 10 Hi from Go",
 	)
 
 	exp := []*Msg{

@@ -1,10 +1,10 @@
 package logplex
 
 import (
-	"strconv"
-	"time"
 	"bytes"
 	"io"
+	"strconv"
+	"time"
 )
 
 type readBuf []byte
@@ -34,7 +34,7 @@ func (b *readBuf) priority() int {
 	if len(p) < 4 {
 		panic(ErrInvalidPriority)
 	}
-	n, err := strconv.Atoi(string(p[1:len(p)-2]))
+	n, err := strconv.Atoi(string(p[1 : len(p)-2]))
 	if err != nil {
 		panic(ErrInvalidPriority)
 	}

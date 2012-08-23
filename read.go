@@ -2,11 +2,11 @@ package logplex
 
 import (
 	"bufio"
+	"errors"
 	"io"
+	"runtime"
 	"strconv"
 	"time"
-	"runtime"
-	"errors"
 )
 
 var (
@@ -24,8 +24,8 @@ type Msg struct {
 }
 
 type Reader struct {
-	buf  *bufio.Reader
-	err  error
+	buf *bufio.Reader
+	err error
 }
 
 func NewReader(buf *bufio.Reader) *Reader {
