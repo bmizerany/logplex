@@ -2,6 +2,7 @@ package logplex
 
 import (
 	"bufio"
+	"io"
 	"reflect"
 	"strings"
 	"testing"
@@ -61,5 +62,16 @@ func TestParse(t *testing.T) {
 		if !reflect.DeepEqual(m.Msg, e.Msg) {
 			t.Errorf("expected %s, got %s", m.Msg, e.Msg)
 		}
+	}
+
+	_, err := r.ReadMsg()
+	if err != io.EOF {
+		t.Errorf("expected io.EOF, got %v", err)
+	}
+
+	// one more for good measure
+	_, err = r.ReadMsg()
+	if err != io.EOF {
+		t.Errorf("expected io.EOF, got %v", err)
 	}
 }

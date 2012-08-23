@@ -50,10 +50,6 @@ func (r *Reader) ReadMsg() (m *Msg, err error) {
 }
 
 func (r *Reader) next() readBuf {
-	if r.err != nil {
-		return nil
-	}
-
 	b, err := r.buf.ReadBytes(' ')
 	if err != nil {
 		panic(err)
