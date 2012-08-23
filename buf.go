@@ -10,7 +10,7 @@ import (
 type readBuf []byte
 
 func (b *readBuf) int() int {
-	p := (*b).bytes()
+	p := b.bytes()
 	n, err := strconv.Atoi(string(p))
 	if err != nil {
 		panic(err)
