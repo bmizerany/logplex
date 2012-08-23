@@ -2,10 +2,13 @@ package logplex
 
 import (
 	"bytes"
+	"errors"
 	"io"
 	"strconv"
 	"time"
 )
+
+var ErrInvalidPriority = errors.New("Invalid Priority")
 
 type readBuf []byte
 

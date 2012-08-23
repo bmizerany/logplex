@@ -3,15 +3,10 @@ package logplex
 
 import (
 	"bufio"
-	"errors"
 	"io"
 	"runtime"
 	"strconv"
 	"time"
-)
-
-var (
-	ErrInvalidPriority = errors.New("Invalid Priority")
 )
 
 type Msg struct {
