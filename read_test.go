@@ -9,10 +9,10 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	data := strings.NewReader(
-		"67 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 2 Hi from Go\n" +
-			"67 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 10 Hi from Go",
-	)
+	data := strings.NewReader(`67 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 2 Hi from Go
+68 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 10 Hi from Go
+68 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 10 Hi from Go
+`)
 
 	exp := []*Msg{
 		{
@@ -31,35 +31,46 @@ func TestParse(t *testing.T) {
 			[]byte("Go"),
 			[]byte("console"),
 			[]byte("10"),
-			[]byte("Hi from Go"),
+			[]byte("Hi from Go\n"),
+		},
+		{
+			174,
+			[]byte("2012-07-22T00:06:26-00:00"),
+			[]byte("somehost"),
+			[]byte("Go"),
+			[]byte("console"),
+			[]byte("10"),
+			[]byte("Hi from Go\n"),
 		},
 	}
 
 	r := NewReader(bufio.NewReader(data))
 
 	for i, e := range exp {
+		t.Logf("EXP %d", i)
+
 		m, err := r.ReadMsg()
 		if err != nil {
 			t.Errorf("error on %d: %v", i, err)
 			continue
 		}
 		if m.Priority != e.Priority {
-			t.Errorf("expected %d, got %d", m.Priority, e.Priority)
+			t.Errorf("expected %d, got %d", e.Priority, m.Priority)
 		}
 		if !reflect.DeepEqual(m.Timestamp, e.Timestamp) {
-			t.Errorf("expected %d, got %d", m.Timestamp, e.Timestamp)
+			t.Errorf("expected %d, got %d", e.Timestamp, m.Timestamp)
 		}
 		if !reflect.DeepEqual(m.Host, e.Host) {
-			t.Errorf("expected %s, got %s", m.Host, e.Host)
+			t.Errorf("expected %s, got %s", e.Host, m.Host)
 		}
 		if !reflect.DeepEqual(m.Pid, e.Pid) {
-			t.Errorf("expected %s, got %s", m.Pid, e.Pid)
+			t.Errorf("expected %s, got %s", e.Pid, m.Pid)
 		}
 		if !reflect.DeepEqual(m.Id, e.Id) {
-			t.Errorf("expected %s, got %s", m.Id, e.Id)
+			t.Errorf("expected %s, got %s", e.Id, m.Id)
 		}
 		if !reflect.DeepEqual(m.Msg, e.Msg) {
-			t.Errorf("expected %s, got %s", m.Msg, e.Msg)
+			t.Errorf("expected %q, got %q", e.Msg, m.Msg)
 		}
 	}
 
