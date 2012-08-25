@@ -63,7 +63,7 @@ func (r *Reader) next() readBuf {
 		panic(err)
 	}
 
-	buf := make(readBuf, n-1)
+	buf := make(readBuf, n)
 	_, err = io.ReadFull(r.buf, buf)
 	if err != nil {
 		panic(err)

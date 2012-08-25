@@ -1,18 +1,18 @@
 package logplex
 
 import (
+	"bytes"
 	"bufio"
 	"io"
 	"reflect"
-	"strings"
 	"testing"
 )
 
 func TestParse(t *testing.T) {
-	data := strings.NewReader(`67 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 2 Hi from Go
-68 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 10 Hi from Go
-68 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 10 Hi from Go
-`)
+	data := `66 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 2 Hi from Go
+67 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 10 Hi from Go
+67 <174>1 2012-07-22T00:06:26-00:00 somehost Go console 10 Hi from Go
+`
 
 	exp := []*Msg{
 		{
@@ -44,7 +44,8 @@ func TestParse(t *testing.T) {
 		},
 	}
 
-	r := NewReader(bufio.NewReader(data))
+	b := bytes.NewBufferString(data)
+	r := NewReader(bufio.NewReader(b))
 
 	for i, e := range exp {
 		t.Logf("EXP %d", i)
