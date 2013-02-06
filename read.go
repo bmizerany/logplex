@@ -2,7 +2,6 @@
 package logplex
 
 import (
-	"bufio"
 	"io"
 	"runtime"
 	"strconv"
@@ -23,13 +22,18 @@ func (m *Msg) Time() (time.Time, error) {
 	return time.Parse(time.RFC3339, string(m.Timestamp))
 }
 
+type BytesReader interface {
+	io.Reader
+	ReadBytes(delim byte) (line []byte, err error)
+}
+
 // Reader reads syslog streams
 type Reader struct {
-	buf *bufio.Reader
+	buf BytesReader
 }
 
 // NewReader returns a new Reader that reads from buf.
-func NewReader(buf *bufio.Reader) *Reader {
+func NewReader(buf BytesReader) *Reader {
 	return &Reader{buf: buf}
 }
 
