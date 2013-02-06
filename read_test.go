@@ -2,7 +2,6 @@ package logplex
 
 import (
 	"bytes"
-	"bufio"
 	"io"
 	"reflect"
 	"testing"
@@ -45,7 +44,7 @@ func TestParse(t *testing.T) {
 	}
 
 	b := bytes.NewBufferString(data)
-	r := NewReader(bufio.NewReader(b))
+	r := NewReader(b)
 
 	for i, e := range exp {
 		t.Logf("EXP %d", i)
